@@ -20,10 +20,9 @@ jobs:
           echo "Private repo URL: $PRIVATE_REPO_URL"
 
       - name: Clone private repo
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ env.PRIVATE_REPO_URL }}
-          token: ${{ env.ACCESS_TOKEN }}
+        run: |
+          git clone $PRIVATE_REPO_URL .
+          git checkout $GITHUB_SHA  # Checkout the commit associated with the event
 
       - name: Verify cloned repo
         run: |
