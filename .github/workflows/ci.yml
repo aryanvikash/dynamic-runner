@@ -21,7 +21,7 @@ jobs:
       - name: Clone private repo
         uses: actions/checkout@v3  # Reuse checkout action for consistency
         with:
-          repository: https://github.com/aryanvikash/carefad
+          repository: aryanvikash/carefad
           token: ${{ env.ACCESS_TOKEN }}
 
       - name: Verify cloned repo
