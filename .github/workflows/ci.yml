@@ -1,8 +1,6 @@
 name: Clone Private Repo
 
-on:
-  push:
-  pull_request:
+on: [push, pull_request]  # Trigger on push or pull request events
 
 jobs:
   clone-private-repo:
@@ -15,14 +13,16 @@ jobs:
       - name: Get private repo URL and token from environment variables
         env:
           PRIVATE_REPO_URL: ${{ secrets.PRIVATE_REPO_URL }}
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           echo "Private repo URL: $PRIVATE_REPO_URL"
+          echo "Github token: $ACCESS_TOKEN"
 
       - name: Clone private repo
-        run: |
-          git clone $PRIVATE_REPO_URL .
-          git checkout $GITHUB_SHA  # Checkout the commit associated with the event
+        uses: actions/checkout@v3  # Reuse checkout action for consistency
+        with:
+          repository: ${{ env.PRIVATE_REPO_URL }}
+          token: ${{ env.ACCESS_TOKEN }}
 
       - name: Verify cloned repo
         run: |
