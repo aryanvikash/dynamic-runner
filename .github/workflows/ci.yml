@@ -15,7 +15,7 @@ jobs:
           PRIVATE_REPO_URL: ${{ secrets.PRIVATE_REPO_URL }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          echo "Private repo URL: $PRIVATE_REPO_URL"
+          echo "Private repo URL: ${{ secrets.PRIVATE_REPO_URL }}"
           echo "Github token: $ACCESS_TOKEN"
 
       - name: Clone private repo
