@@ -1,0 +1,29 @@
+name: Clone Private Repo
+
+on: [push, pull_request]  # Trigger on push or pull request events
+
+jobs:
+  clone-private-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+
+      - name: Get private repo URL and token from environment variables
+        env:
+          PRIVATE_REPO_URL: ${{ secrets.PRIVATE_REPO_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Private repo URL: $PRIVATE_REPO_URL"
+
+      - name: Clone private repo
+        uses: actions/checkout@v3  # Reuse checkout action for consistency
+        with:
+          repository: ${{ env.PRIVATE_REPO_URL }}
+          token: ${{ env.GITHUB_TOKEN }}
+
+      - name: Verify cloned repo
+        run: |
+          ls -al
+          git remote -v
